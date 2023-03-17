@@ -15,3 +15,18 @@ Include the improved test code in this file.
 
 ## Answer
 
+
+DetachedTestCase on ApacheCommonsCollections.
+
+../../commons-collections/src/test/java/org/apache/commons/collections4/IterableUtilsTest.java:337:	DetachedTestCase:	Probable detached JUnit test case.
+Le test n'a pas son annotation @Test.
+
+```
+@Test
+public void getFromIterable() throws Exception {
+        // Collection, entry exists
+        final Bag<String> bag = new HashBag<>();
+        bag.add("element", 1);
+        assertEquals("element", IterableUtils.get(bag, 0));
+}
+```

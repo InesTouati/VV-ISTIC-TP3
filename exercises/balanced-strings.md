@@ -26,3 +26,90 @@ Use the project in [tp3-balanced-strings](../code/tp3-balanced-strings) to compl
 
 ## Answer
 
+## 1
+
+| Characteristic          | Block 1       | Block 2         | Block 3                    | Block 4                    | Block 5 |
+|-------------------------|---------------|-----------------|----------------------------|----------------------------|---------|
+| Taille du string        | 0             | 1               | >1                         | paire                      | impaire |
+| Type de symbole         | ouvrants      | fermants        | les 2 en proportion inégale| les 2 en proportion égale  |         | 
+| Ordre des symboles      | ordre correct | ordre incorrect |                            |                            |         |
+
+## 2
+Couverture de 100%.
+Écriture de tests correspondants aux blocs définis. Les tests sont commentés.
+
+## 3
+Il y a 2 prédicats concernés :
+```
+current == '(' || current == '[' || current == '{'
+```
+
+```
+(last == '(' && current == ')') ||
+(last == '[' && current == ']') ||
+(last == '{' && current == '}')
+```
+
+Les tests écrits jusqu'à présent satisfont déjà le BCC.
+
+## 4
+Première execution :
+18/20 mutants tués (90%)
+```
+ 13 		
+1. Replaced integer modulus with multiplication → SURVIVED
+2. negated conditional → KILLED
+
+14 		
+1. replaced boolean return with true for fr/istic/vv/StringUtils::isBalanced → KILLED
+
+17 		
+1. changed conditional boundary → KILLED
+2. negated conditional → KILLED
+
+19 		
+1. negated conditional → KILLED
+2. negated conditional → KILLED
+3. negated conditional → KILLED
+
+20 		
+1. removed call to java/util/LinkedList::addLast → KILLED
+
+23 		
+1. negated conditional → KILLED
+
+24 		
+1. replaced boolean return with true for fr/istic/vv/StringUtils::isBalanced → KILLED
+
+27 		
+1. negated conditional → KILLED
+2. negated conditional → KILLED
+
+28 		
+1. negated conditional → KILLED
+2. negated conditional → KILLED
+
+29 		
+1. negated conditional → KILLED
+2. negated conditional → KILLED
+
+32 		
+1. replaced boolean return with true for fr/istic/vv/StringUtils::isBalanced → KILLED
+
+35 		
+1. replaced boolean return with false for fr/istic/vv/StringUtils::isBalanced → KILLED
+2. replaced boolean return with true for fr/istic/vv/StringUtils::isBalanced → SURVIVED
+```
+
+Le 1er mutant n'est pas tuable.
+Replaced integer modulus with multiplication → SURVIVED
+En effet         
+```
+if(len%2 == 1){ return false}
+```
+permet d'éviter des tests inutiles si la ligne est impaire (il ne peut y avoir que des pairs de portes).
+len*1 == 1 ne provoque pas d'erreur dans les tests mais ne peut pas non plus faire valider de string à tors, puis la condition sera toujours fausse (len étant un integer).
+
+La correction apportée pour corriger l'autre mutant était de rajouter un symbole dans ce test :
+Assert.assertFalse(isBalanced("{([")); pour "{([[".
+Ce string était éliminé par le test de chaîne impair et aucun des tests ne fournissait de lifo non vide.
