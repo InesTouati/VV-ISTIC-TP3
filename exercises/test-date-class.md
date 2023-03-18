@@ -53,3 +53,48 @@ Use the project in [tp3-date](../code/tp3-date) to complete this exercise.
 
 ## Answer
 
+### 1
+#### isValideDate
+
+| Characteristic    | Block 1                  | Block 2                    | Block 3             | Block 4  |
+|-------------------|--------------------------|----------------------------|---------------------|----------|
+| valeur du jour    | <1  && \> taille du mois | \>= 1 && <= taille du mois |                     |          |
+| valeur du mois    | <1  && \> 12             | \>=1  && <= 12             | mois de 30/31 jours | février  | 
+| valeur de l'année | leap year                | not leap year              |                     |          |
+
+#### isLeapYear
+| Characteristic    | Block 1 | Block 2          | Block 3                     | Block 4                     | 
+|-------------------|---------|------------------|-----------------------------|-----------------------------|
+| valeur de l'année | %4!=0   | %4==0 && %100!=0 | %4==0 && %100==0 && %400!=0 | %4==0 && %100==0 && %400==0 | 
+
+### compareTo
+| Characteristic    | Block 1 | Block 2                  | Block 3                  |
+|-------------------|---------|--------------------------|--------------------------|
+| valeur du jour    | égaux   | date postérieure à other | date antérieure à other  |
+| valeur du mois    | égaux   | date postérieure à other | date antérieure à other  |
+| valeur de l'année | égaux   | date postérieure à other | date antérieure à other  |
+
+La caractéristique de la valeur de l'année est commune entre isValidDate et isLeapYear.
+
+### 2 
+Couverture insuffisante au 1er essai, il manquait des tests pour couvrir toutes les tailles de mois pour previousDate() :
+Après leur ajout, couverture de 100% des méthodes et lignes.
+
+### 3
+La plupart des prédicats de plus d'un boolean represent soit une interval ([1-30]jours), soit une liste de possibilité pour une valeur (mois de 31 jours).
+Le prédicat notable est :
+```(year*10000 + month*100 + day) - (other.year*10000 + other.month*100 + other.day)```
+qui permet de calculer la différence entre 2 jours en donnant plus de poids à l'année puis au mois.
+
+Le BCC est respecté.
+
+### 4
+Au premier lancement de pitest :
+Generated 76 mutations Killed 75 (99%)
+
+Le mutant restant concernait le cas particulier de juillet et août qui ont tous 2 31 jours.
+Le mutant est tué en rajoutant ces 2 données pour le test de previousDate():
+``` 
+Arguments.of(new Date(31,7,2023), new Date(1,8,2023)), 
+Arguments.of(new Date(31,8,2023), new Date(1,9,2023)) 
+```
